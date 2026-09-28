@@ -18,6 +18,11 @@ no account, no telemetry — just press record.
 
 </div>
 
+<p align="center">
+  <img src="assets/demo.gif" alt="live demo: record a circle once, then watch it redraw itself" width="420">
+  <br><sub>real capture — it records the circle once, then replays it on its own</sub>
+</p>
+
 <img src="assets/head-features.png" width="100%" alt="what it does">
 
 | | |
