@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZenTask — tiny macro recorder & auto clicker</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #0b0a14;
+    color: #e2e0f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 48px 20px;
+    background-image: radial-gradient(circle at 50% -10%, rgba(90, 87, 245, 0.25), transparent 55%);
+  }
+  .logo {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: #5a57f5;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 34px; font-weight: 900; color: #fff;
+    box-shadow: 0 0 42px rgba(90, 87, 245, 0.55);
+    margin-bottom: 22px;
+  }
+  h1 { font-size: 42px; letter-spacing: -1px; margin-bottom: 10px; }
+  h1 span { color: #8b89ff; }
+  .tagline { color: #9895b5; font-size: 17px; max-width: 520px; line-height: 1.55; margin-bottom: 34px; }
+  .btn {
+    display: inline-block;
+    background: #5a57f5; color: #fff; text-decoration: none;
+    font-weight: 700; font-size: 16px;
+    padding: 14px 34px; border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(90, 87, 245, 0.45);
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover { background: #6c69ff; transform: translateY(-2px); }
+  .meta { margin-top: 14px; color: #6f6c8c; font-size: 13px; }
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px; max-width: 760px; margin: 46px 0 34px; width: 100%;
+  }
+  .card {
+    background: #141223; border: 1px solid #262340;
+    border-radius: 16px; padding: 18px 16px; text-align: left;
+  }
+  .card b { display: block; margin-bottom: 6px; font-size: 14.5px; }
+  .card p { color: #9895b5; font-size: 13px; line-height: 1.5; }
+  footer { color: #55526e; font-size: 12.5px; margin-top: 8px; line-height: 1.7; }
+  footer a { color: #8b89ff; text-decoration: none; }
+</style>
+</head>
+<body>
+  <div class="logo">Z</div>
+  <h1>Zen<span>Task</span></h1>
+  <p class="tagline">a tiny always-on-top macro recorder &amp; auto clicker for windows.
+  record your mouse and keyboard, loop it, hotkey it, save it.
+  no account, no telemetry — just press record.</p>
+
+  <a class="btn" href="https://github.com/sitezu/zentask/releases/latest/download/ZenTask-Setup-1.0.6.exe">⬇ Download for Windows</a>
+  <div class="meta">v1.0.6 · Windows 10/11 (64-bit) · free · ~79 MB</div>
+
+  <div class="grid">
+    <div class="card"><b>🎥 Record &amp; replay</b><p>captures mouse moves, clicks and keystrokes. loop a set number of times or forever, with speed control.</p></div>
+    <div class="card"><b>🖱️ Auto clicker</b><p>adjustable clicks-per-second, any button, single or double. follow your cursor or click a fixed spot.</p></div>
+    <div class="card"><b>🗂️ Macro library</b><p>save macros with the normal windows save-as dialog, rename them with one click, load them anytime.</p></div>
+    <div class="card"><b>⌨️ Global hotkeys</b><p>record, play, pause and clicker hotkeys that work in any app — you never have to touch the widget.</p></div>
+    <div class="card"><b>📌 Always on top</b><p>compact draggable widget that stays out of your way, with themes, light mode and tray support.</p></div>
+    <div class="card"><b>🖥️ DPI aware</b><p>recordings stay accurate at 125% / 150% display scaling.</p></div>
+  </div>
+
+  <footer>
+    unsigned exe — windows smartscreen may warn, that's normal for free indie apps.<br>
+    MD5: 21f4a76fd3a220fb6f89cf68116aef97 ·
+    <a href="https://github.com/sitezu/zentask">source &amp; releases on GitHub</a>
+  </footer>
+</body>
+</html>
