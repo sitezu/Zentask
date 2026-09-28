@@ -1,0 +1,35 @@
+# dependencies
+node_modules/
+
+# build output
+release/
+dist/
+build/
+out/
+
+# caches
+.cache/
+.npm/
+.parcel-cache/
+.vite/
+__pycache__/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.turbo/
+
+# logs & temp
+*.log
+npm-debug.log*
+*.tmp
+
+# editor / OS junk
+.DS_Store
+thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# local env & secrets
+.env
+.env.local
