@@ -3,91 +3,467 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZenTask — tiny macro recorder & auto clicker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+<title>ZenTask — Tiny Macro Recorder & Auto Clicker</title>
 <style>
+  :root {
+    --bg-base: #030108;
+    --grid-color: rgba(255, 255, 255, 0.03);
+    --surface: rgba(255, 255, 255, 0.02);
+    --surface-border: rgba(255, 255, 255, 0.06);
+    --surface-hover-border: rgba(139, 137, 255, 0.3);
+    
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary: #a855f7;
+    --glow-primary: rgba(99, 102, 241, 0.3);
+    --glow-secondary: rgba(168, 85, 247, 0.3);
+    
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
-    font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
-    background: #0b0a14;
-    color: #e2e0f0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-base);
+    color: var(--text-main);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.6;
+    /* Animated tech grid background */
+    background-image: 
+      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center top;
+  }
+
+  /* Breathing ambient glows */
+  .ambient-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    opacity: 0.5;
+    animation: breathe 8s ease-in-out infinite alternate;
+  }
+  .glow-1 {
+    top: -100px; left: 10%;
+    background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
+  }
+  .glow-2 {
+    top: 20%; right: 10%;
+    background: radial-gradient(circle, var(--glow-secondary) 0%, transparent 70%);
+    animation-delay: -4s;
+  }
+
+  .container {
+    max-width: 1000px;
+    width: 100%;
+    padding: 100px 24px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 48px 20px;
-    background-image: radial-gradient(circle at 50% -10%, rgba(90, 87, 245, 0.25), transparent 55%);
+    z-index: 1;
   }
+
+  /* Hero Section */
   .logo {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: #5a57f5;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 34px; font-weight: 900; color: #fff;
-    box-shadow: 0 0 42px rgba(90, 87, 245, 0.55);
-    margin-bottom: 22px;
+    width: 88px;
+    height: 88px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    font-weight: 900;
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.1) inset, 
+                0 20px 40px var(--glow-primary);
+    margin-bottom: 32px;
+    position: relative;
   }
-  h1 { font-size: 42px; letter-spacing: -1px; margin-bottom: 10px; }
-  h1 span { color: #8b89ff; }
-  .tagline { color: #9895b5; font-size: 17px; max-width: 520px; line-height: 1.55; margin-bottom: 34px; }
+  
+  /* Rotating border effect on logo */
+  .logo::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 26px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+    z-index: -1;
+    animation: spin 3s linear infinite;
+  }
+
+  h1 {
+    font-size: clamp(48px, 8vw, 72px);
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  h1 span {
+    background: linear-gradient(to right, #fff 20%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: pulse-text 4s ease-in-out infinite alternate;
+  }
+
+  .tagline {
+    color: var(--text-muted);
+    font-size: clamp(16px, 4vw, 20px);
+    max-width: 650px;
+    margin-bottom: 48px;
+    font-weight: 400;
+  }
+
+  /* Shimmering CTA Button */
+  .btn-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
   .btn {
-    display: inline-block;
-    background: #5a57f5; color: #fff; text-decoration: none;
-    font-weight: 700; font-size: 16px;
-    padding: 14px 34px; border-radius: 14px;
-    box-shadow: 0 6px 24px rgba(90, 87, 245, 0.45);
-    transition: transform .15s ease, background .15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+    background-size: 200% auto;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 18px 48px;
+    border-radius: 99px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    animation: gradient-shift 4s linear infinite;
+    box-shadow: 0 12px 32px var(--glow-primary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  .btn:hover { background: #6c69ff; transform: translateY(-2px); }
-  .meta { margin-top: 14px; color: #6f6c8c; font-size: 13px; }
+
+  .btn:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 48px var(--glow-secondary);
+  }
+
+  .btn:active {
+    transform: translateY(2px) scale(0.98);
+  }
+
+  .meta {
+    color: #64748b;
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 80px;
+    font-weight: 500;
+  }
+
+  .meta span::before {
+    content: '•';
+    color: #334155;
+    margin-right: 16px;
+  }
+
+  /* Bento-style Features Grid */
   .grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px; max-width: 760px; margin: 46px 0 34px; width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    width: 100%;
+    perspective: 1000px;
   }
+
   .card {
-    background: #141223; border: 1px solid #262340;
-    border-radius: 16px; padding: 18px 16px; text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 32px;
+    text-align: left;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
   }
-  .card b { display: block; margin-bottom: 6px; font-size: 14.5px; }
-  .card p { color: #9895b5; font-size: 13px; line-height: 1.5; }
-  footer { color: #55526e; font-size: 12.5px; margin-top: 8px; line-height: 1.7; }
-  footer a { color: #8b89ff; text-decoration: none; }
-  .shots-title { margin: 6px 0 20px; font-size: 20px; color: #e2e0f0; letter-spacing: -0.5px; }
-  .shots { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; max-width: 940px; margin-bottom: 34px; }
-  .shots figure { margin: 0; }
-  .shots img { width: 280px; border-radius: 16px; border: 1px solid #262340; box-shadow: 0 10px 30px rgba(0,0,0,.45); }
-  .shots figcaption { margin-top: 8px; color: #6f6c8c; font-size: 12px; }
+
+  /* Card shine effect */
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+    transform: skewX(-20deg);
+    transition: 0.7s;
+  }
+
+  .card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--surface-hover-border);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4), 
+                0 0 0 1px var(--surface-hover-border) inset;
+  }
+
+  .card:hover::after {
+    left: 200%;
+  }
+
+  .card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card:hover .card-icon {
+    background: var(--primary);
+    border-color: var(--primary-hover);
+    color: #fff;
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 24px var(--glow-primary);
+  }
+
+  .card b {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #f8fafc;
+  }
+
+  .card p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* Screenshots */
+  .shots { width: 100%; margin-top: 96px; }
+  .shots h2 { font-size: 30px; font-weight: 800; letter-spacing: -1px; margin-bottom: 28px; }
+  .shots h2 span { background: linear-gradient(to right, #fff 20%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .shots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .shot { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 24px; padding: 16px; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .shot:hover { transform: translateY(-8px); border-color: var(--surface-hover-border); box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4); }
+  .shot img { width: 100%; border-radius: 14px; display: block; }
+  .shot figcaption { color: var(--text-muted); font-size: 14px; padding: 14px 6px 4px; }
+
+  /* Footer */
+  footer {
+    width: 100%;
+    padding: 40px 24px;
+    border-top: 1px solid var(--surface-border);
+    background: rgba(3, 1, 8, 0.8);
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    color: #64748b;
+    font-size: 14px;
+    margin-top: auto;
+  }
+
+  footer a {
+    color: #a855f7;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  footer a:hover { color: #d8b4fe; }
+
+  .security-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(34, 197, 94, 0.05);
+    color: #4ade80;
+    padding: 8px 16px;
+    border-radius: 99px;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .security-badge:hover {
+    background: rgba(34, 197, 94, 0.1);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* --- Complex Animations --- */
+  
+  /* Initial Reveal Blur & Slide */
+  .reveal {
+    opacity: 0;
+    filter: blur(16px);
+    transform: translateY(40px) scale(0.95);
+    animation: superReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
+  .delay-6 { animation-delay: 0.6s; }
+
+  @keyframes superReveal {
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes breathe {
+    0% { transform: scale(1) translate(0, 0); opacity: 0.4; }
+    100% { transform: scale(1.2) translate(20px, 20px); opacity: 0.7; }
+  }
+
+  @keyframes spin {
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes gradient-shift {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  @keyframes pulse-text {
+    0% { filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
+    100% { filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.4)); }
+  }
 </style>
 </head>
 <body>
-  <div class="logo">Z</div>
-  <h1>Zen<span>Task</span></h1>
-  <p class="tagline">a tiny always-on-top macro recorder &amp; auto clicker for windows.
-  record your mouse and keyboard, loop it, hotkey it, save it.
-  no account, no telemetry — just press record.</p>
 
-  <a class="btn" href="https://github.com/sitezu/zentask/releases/latest/download/ZenTask-Setup-1.0.6.exe">⬇ Download for Windows</a>
-  <div class="meta">v1.0.6 · Windows 10/11 (64-bit) · free · ~79 MB</div>
+  <!-- Ambient Animated Lights -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
 
-  <div class="grid">
-    <div class="card"><b>🎥 Record &amp; replay</b><p>captures mouse moves, clicks and keystrokes. loop a set number of times or forever, with speed control.</p></div>
-    <div class="card"><b>🖱️ Auto clicker</b><p>adjustable clicks-per-second, any button, single or double. follow your cursor or click a fixed spot.</p></div>
-    <div class="card"><b>🗂️ Macro library</b><p>save macros with the normal windows save-as dialog, rename them with one click, load them anytime.</p></div>
-    <div class="card"><b>⌨️ Global hotkeys</b><p>record, play, pause and clicker hotkeys that work in any app — you never have to touch the widget.</p></div>
-    <div class="card"><b>📌 Always on top</b><p>compact draggable widget that stays out of your way, with themes, light mode and tray support.</p></div>
-    <div class="card"><b>🖥️ DPI aware</b><p>recordings stay accurate at 125% / 150% display scaling.</p></div>
-  </div>
+  <main class="container">
+    <div class="logo reveal">Z</div>
+    
+    <h1 class="reveal delay-1">Zen<span>Task</span></h1>
+    
+    <p class="tagline reveal delay-2">
+      A tiny, always-on-top macro recorder & auto clicker for Windows. 
+      Record your mouse and keyboard, loop it, hotkey it, save it. 
+      No account, no telemetry — just press record.
+    </p>
 
-  <h2 class="shots-title">see it in action</h2>
-  <div class="shots">
-    <figure><img src="assets/shot-library.png" alt="macro library"><figcaption>macro library — save, rename, load</figcaption></figure>
-    <figure><img src="assets/shot-composer.png" alt="webhook embed composer"><figcaption>webhook embed composer + preview</figcaption></figure>
-    <figure><img src="assets/shot-clicker.png" alt="auto clicker"><figcaption>auto clicker</figcaption></figure>
-  </div>
+    <div class="btn-wrapper reveal delay-3">
+      <a class="btn" href="https://github.com/sitezu/Zentask/releases/latest/download/ZenTask-Setup-1.0.6.exe">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Download for Windows
+      </a>
+    </div>
+    
+    <div class="meta reveal delay-4">
+      v1.0.6 <span>Windows 10/11 (64-bit)</span> <span>Free</span> <span>~79 MB</span>
+    </div>
+
+    <div class="grid">
+      <!-- Record & Replay -->
+      <div class="card reveal delay-3">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+        </div>
+        <b>Record & replay</b>
+        <p>Captures mouse moves, clicks and keystrokes. Loop a set number of times or forever, with fine-tuned speed control.</p>
+      </div>
+      
+      <!-- Auto Clicker -->
+      <div class="card reveal delay-4">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path><path d="M13 13l6 6"></path></svg>
+        </div>
+        <b>Auto clicker</b>
+        <p>Adjustable clicks-per-second, any button, single or double. Follow your cursor dynamically or click a fixed coordinate.</p>
+      </div>
+
+      <!-- Macro Library -->
+      <div class="card reveal delay-5">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+        </div>
+        <b>Macro library</b>
+        <p>Save macros with the native Windows save-as dialog, rename them instantly, and load them instantly anytime.</p>
+      </div>
+
+      <!-- Global Hotkeys -->
+      <div class="card reveal delay-4">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><path d="M6 8h.01"></path><path d="M10 8h.01"></path><path d="M14 8h.01"></path><path d="M18 8h.01"></path><path d="M8 12h.01"></path><path d="M12 12h.01"></path><path d="M16 12h.01"></path><path d="M7 16h10"></path></svg>
+        </div>
+        <b>Global hotkeys</b>
+        <p>Record, play, pause and trigger clicker hotkeys that execute globally in any app — you never have to touch the widget.</p>
+      </div>
+
+      <!-- Always on top -->
+      <div class="card reveal delay-5">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="17" x2="12" y2="22"></line><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.68V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3v4.68a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"></path></svg>
+        </div>
+        <b>Always on top</b>
+        <p>Compact, draggable widget that stays out of your way. Ships with custom themes, light mode, and system tray support.</p>
+      </div>
+
+      <!-- DPI Aware -->
+      <div class="card reveal delay-6">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        </div>
+        <b>DPI aware</b>
+        <p>Hardware-level scaling ensures your recordings stay perfectly accurate at 125%, 150%, and beyond display scaling.</p>
+      </div>
+    </div>
+    <!-- Screenshots -->
+    <section class="shots reveal delay-6">
+      <h2>See it in <span>action</span></h2>
+      <div class="shots-grid">
+        <figure class="shot"><img src="assets/shot-library.png" alt="macro library"><figcaption>macro library — save, rename, load</figcaption></figure>
+        <figure class="shot"><img src="assets/shot-composer.png" alt="webhook embed composer"><figcaption>webhook embed composer + live preview</figcaption></figure>
+        <figure class="shot"><img src="assets/shot-clicker.png" alt="auto clicker"><figcaption>auto clicker</figcaption></figure>
+      </div>
+    </section>
+
+  </main>
 
   <footer>
-    ✅ <a href="https://www.virustotal.com/gui/file/e130a9a6d4128aa824091a3dd5be4539c185866a844e7f055571b8d971602d2b">virustotal: 0/68 engines — clean</a><br>
-    unsigned exe — windows smartscreen may warn, that's normal for free indie apps.<br>
-    <a href="https://github.com/sitezu/Zentask">releases on GitHub</a>
+    <a href="https://www.virustotal.com/gui/file/e130a9a6d4128aa824091a3dd5be4539c185866a844e7f055571b8d971602d2b" target="_blank" rel="noopener noreferrer" class="security-badge">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+      VirusTotal: 0/68 engines — 100% clean
+    </a>
+    <div>Unsigned EXE — Windows SmartScreen may warn upon execution, standard for free indie apps.</div>
+    <div>
+      <a href="https://github.com/sitezu/Zentask" target="_blank" rel="noopener noreferrer">View Open Source Releases on GitHub</a>
+    </div>
   </footer>
+
 </body>
 </html>
