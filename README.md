@@ -94,6 +94,7 @@ wherever you found this. i'm actively working on it.
 
 <div align="center">
 
+<sub>if this saved you time, a ⭐ on the repo helps other people find it.</sub><br>
 <sub>MIT license — do whatever you want with it.</sub><br>
 <sub>made with 💜 by <a href="https://github.com/sitezu">sitezu</a></sub>
 
