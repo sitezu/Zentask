@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: just want to say hi / ask a question
+    url: https://github.com/sitezu/Zentask/discussions
+    about: discussions tab works great for anything that isn't a bug or a feature
