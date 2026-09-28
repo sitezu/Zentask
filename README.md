@@ -12,11 +12,14 @@ the background.
 
 windows 10/11 (64-bit) · single installer · free
 
-> ⚠️ windows smartscreen might say "unknown publisher" — i don't pay for a
-> code signing certificate for a free project, so that's expected.
-> the file is clean. you can verify it:
-> `MD5: 21f4a76fd3a220fb6f89cf68116aef97`
-> (in powershell: `Get-FileHash -Algorithm MD5 .\ZenTask-Setup-1.0.6.exe`)
+> ✅ **virustotal: 0/68 engines flagged it — clean.**
+> [see the scan yourself](https://www.virustotal.com/gui/file/e130a9a6d4128aa824091a3dd5be4539c185866a844e7f055571b8d971602d2b)
+>
+> ⚠️ windows smartscreen might still say "unknown publisher" — i don't pay
+> for a code signing certificate for a free project, so that's expected.
+> to confirm you downloaded the exact file that was scanned:
+> `SHA256: e130a9a6d4128aa824091a3dd5be4539c185866a844e7f055571b8d971602d2b`
+> (powershell: `Get-FileHash .\ZenTask-Setup-1.0.6.exe`)
 
 ## what it does
 
@@ -53,11 +56,13 @@ windows 10/11 (64-bit) · single installer · free
 
 ## faq
 
-**is it safe?** it's a normal desktop app — no installer extras, no ads,
-no telemetry, no account. verify the MD5 above if you want to be sure.
+**is it safe?** yes — it scans **0/68 clean on
+[virustotal](https://www.virustotal.com/gui/file/e130a9a6d4128aa824091a3dd5be4539c185866a844e7f055571b8d971602d2b)**, and there's no installer extras, no ads,
+no telemetry, no account.
 
-**antivirus flagged it?** unsigned indie exes sometimes get false-flagged.
-you can upload it to virustotal.com yourself and see.
+**antivirus flagged it?** it's 0/68 on virustotal (link above), so a flag
+on your machine would be a false positive on the unsigned exe — re-upload
+it to virustotal and compare the SHA256 if you want proof it's the same file.
 
 **can i use it in games?** it simulates normal mouse/keyboard input, but
 whether a specific game's anti-cheat allows that is between you and the
