@@ -51,6 +51,11 @@
   .card p { color: #9895b5; font-size: 13px; line-height: 1.5; }
   footer { color: #55526e; font-size: 12.5px; margin-top: 8px; line-height: 1.7; }
   footer a { color: #8b89ff; text-decoration: none; }
+  .shots-title { margin: 6px 0 20px; font-size: 20px; color: #e2e0f0; letter-spacing: -0.5px; }
+  .shots { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; max-width: 940px; margin-bottom: 34px; }
+  .shots figure { margin: 0; }
+  .shots img { width: 280px; border-radius: 16px; border: 1px solid #262340; box-shadow: 0 10px 30px rgba(0,0,0,.45); }
+  .shots figcaption { margin-top: 8px; color: #6f6c8c; font-size: 12px; }
 </style>
 </head>
 <body>
@@ -70,6 +75,13 @@
     <div class="card"><b>⌨️ Global hotkeys</b><p>record, play, pause and clicker hotkeys that work in any app — you never have to touch the widget.</p></div>
     <div class="card"><b>📌 Always on top</b><p>compact draggable widget that stays out of your way, with themes, light mode and tray support.</p></div>
     <div class="card"><b>🖥️ DPI aware</b><p>recordings stay accurate at 125% / 150% display scaling.</p></div>
+  </div>
+
+  <h2 class="shots-title">see it in action</h2>
+  <div class="shots">
+    <figure><img src="assets/shot-library.png" alt="macro library"><figcaption>macro library — save, rename, load</figcaption></figure>
+    <figure><img src="assets/shot-composer.png" alt="webhook embed composer"><figcaption>webhook embed composer + preview</figcaption></figure>
+    <figure><img src="assets/shot-clicker.png" alt="auto clicker"><figcaption>auto clicker</figcaption></figure>
   </div>
 
   <footer>
