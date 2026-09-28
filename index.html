@@ -278,7 +278,7 @@
 
   /* Demo */
   .demo { margin: 0 0 80px; background: var(--surface); border: 1px solid var(--surface-border); border-radius: 24px; padding: 20px; max-width: 480px; }
-  .demo img { border-radius: 14px; display: block; width: 100%; }
+  .demo img, .demo video { border-radius: 14px; display: block; width: 100%; }
   .demo figcaption { color: var(--text-muted); font-size: 13px; margin-top: 12px; }
 
   /* Screenshots */
@@ -408,8 +408,8 @@
     </div>
 
     <figure class="demo reveal delay-5">
-      <img src="assets/demo.gif" alt="live demo: record a circle, watch it replay itself">
-      <figcaption>recorded once — now it redraws itself. no edits, real capture.</figcaption>
+      <video src="assets/zentask-demo.mp4" autoplay muted loop playsinline aria-label="live demo: full app walkthrough"></video>
+      <figcaption>real capture, no edits — themes, recording, replay, clicker, library.</figcaption>
     </figure>
 
     <div class="grid">
